@@ -1,18 +1,3 @@
-LOGISTICS
------
-ECE 391 MP3 
-
-Checkpoint 1 due Monday 3/12/2017, 6pm in GitLab
-
-Checkpoint 2 due Tuesday 3/27/2017, 6pm in GitLab
-
-Checkpoint 3 due Monday 4/9/2017, 6pm in GitLab
-
-Checkpoint 4 due Tuesday 4/16/2017, 6pm in GitLab
-
-Checkpoint 5 due Monday 4/30/2017, 6pm in GitLab
-
-
 ACADEMIC INTEGRITY
 -----
 Please review the University of Illinois Student Code before starting,
