@@ -1,0 +1,47 @@
+BUG_LOG:
+
+Problem: Grep breaking RTC
+Fix: Moved enable_rtc(2) to kernel entry, so rtc open won't reset the frequency
+
+Problem: Fish not showing up on terminal 2 and 3
+Fix: Was using memset 0 on vmem in change term, which set text color to black, changed to use clear() function instead.
+
+Problem: Cursor not following text when multitasking is enabled
+Fix: move_cursor must be linked to the active terminal, only allowed to be moved on keyboard press, or the task that called
+putc is running in the active terminal
+
+Problem: Fish not moving after switching from and back to a terminal
+Fix: phys_base in remap_terminal remap_terminal_vidmap not bitshifted down properly
+
+Problem: Exiting base shell on terminal 2 and 3 causes pagefaults
+Fix: terminal 2 and 3's parent needs to be 0 (the kernel process), and use the exec_ebp saved when terminal 1 was first executed
+
+Problem: Scheduling causes pagefaults
+Fix: Scheduling flow was wrong. The scheduling interrupt handler was not changing task back to the "old" task, fixed by saving current_task_id in local variable "this_task", and when returning from the assembly linkage, restoring current_task to "this_task"
+
+Problem: Terminal switching causing residue
+Fix: Just moved some steps around and it works lol.
+
+Problem: Keyboard not recieving input during syscall_read
+Fix: Need STI in interrupt_common, interrupt gates cli by default
+
+Problem: Pagefaulting after IRET in execute
+Fix: ESP for IRET needs to be set to bottom of user page - 4, since processor will try to read a whole long(4 byte), and if esp is on bottom edge, it will leak into the next page
+
+Problem: Triple faulting on reload_paging
+Fix: Kernel page still needs to be written
+
+Problem: Interrupts not working
+Fix: irq masks are active low. inverted original mask and its working.
+
+Problem: Triple faulting on interrupt
+Fix: status bits in idt_entries need to be set
+
+Problem: Faulting whenever we attempt to initialize paging/set the page directory
+Fix: set the correct bit in cr4 before setting the necessary bits in cr3
+
+Problem: PIC Initialization code causing triple fault
+Fix: Use cli() and sti() function calls to manage simple critical sections
+
+Problem: PIC EOI are not being recieved properly
+Fix: EOI should be sent twice when in a master and slave cascade
